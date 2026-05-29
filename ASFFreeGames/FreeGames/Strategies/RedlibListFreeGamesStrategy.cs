@@ -52,14 +52,10 @@ public sealed class RedlibListFreeGamesStrategy : IListFreeGamesStrategy {
 			await cts.CancelAsync().ConfigureAwait(false);
 
 			try {
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(allTasks).ConfigureAwait(false);
 			}
 			catch (Exception) {
-				// ignored
-			}
-
-			foreach (Task<IReadOnlyCollection<RedditGameEntry>> task in allTasks) {
-				task.Dispose();
+				// ignored; observing all download task exceptions prevents UnobservedTaskException noise
 			}
 		}
 
@@ -213,7 +209,6 @@ public sealed class RedlibListFreeGamesStrategy : IListFreeGamesStrategy {
 				if (task.IsCompleted) {
 					tasks.Remove(node);
 					node = tasks.First;
-					task.Dispose();
 
 					continue;
 				}
