@@ -3,19 +3,7 @@ name: Plugin-publish
 on:
   push:
   pull_request:
-  release:
-    types: [published]
   workflow_dispatch:
-    inputs:
-      publish_release:
-        description: Publish artifacts to a GitHub Release
-        required: false
-        default: false
-        type: boolean
-      release_tag:
-        description: Tag to publish when publish_release is enabled; defaults to the selected tag
-        required: false
-        type: string
 
 env:
   CONFIGURATION: Release
